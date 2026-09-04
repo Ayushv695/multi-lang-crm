@@ -3,11 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Item;
-use App\Repositories\Contracts\ItemRepositoryInterface;
+use App\Repositories\Contracts\ItemTranslationsRepositoryInterface;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
-class ItemRepository implements ItemRepositoryInterface
+class ItemTranslationsRepository implements ItemTranslationsRepositoryInterface
 {
     use FileUpload;
     public function list(array $data){
@@ -36,7 +36,7 @@ class ItemRepository implements ItemRepositoryInterface
         $item->update($data);
         return $item->fresh();
     }
-    public function delete(int $id){
+    public function delete(int $itemId, int $languageId){
         $item = Item::findOrFail($id);
         // $this->deleteImage($item->photo , Item::IMAGE_UPLOAD_PATH);
         return (bool) $item->delete();

@@ -27,12 +27,12 @@ class LanguageRepository implements LanguageRepositoryInterface
         return Language::create($data);
     }
 
-    public function update($id, array $data){
+    public function update(int $id, array $data){
         $language = Language::findOrFail($id);
         $language->update($data);
         return $language->fresh();
     }
-    public function delete($id){
+    public function delete(int $id){
         return (bool) Language::findOrFail($id)->delete();
     }
 }

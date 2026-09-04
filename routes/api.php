@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ItemController;
+use App\Http\Controllers\Api\ItemTranslationController;
 use App\Http\Controllers\Api\LanguageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,5 +44,13 @@ Route::middleware('jwt')->group(function () {
         Route::post('/item', 'store');
         Route::put('/item/{id}', 'update');
         Route::delete('/item/{id}', 'destroy');
+    });
+
+    Route::middleware('role:admin,manager')->controller(ItemTranslationController::class)->group(function () {
+        Route::get('/items/{itemId}/translations','index');
+        Route::post('/items/{itemId}/language','store');
+        Route::get('/items/{itemId}/language/{languageId}','show');
+        Route::put('/item-translation/{id}','update');
+        Route::delete('/item-translation/{id}','destroy');
     });
 });

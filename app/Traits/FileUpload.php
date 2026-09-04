@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\File;
-trait ImageUpload
+trait FileUpload
 {
     public function uploadImage($request, $input_name ,$path){
         $image_name = '';

@@ -32,12 +32,12 @@ class LanguageController extends Controller
         }catch(\Exception $e){
             return errorResponse(
                 message: $e->getMessage(),
-                status: 401
+                status: 500
             );
         }
     }
 
-    public function update(UpdateLanguageRequest $request, $id) {
+    public function update(UpdateLanguageRequest $request, int $id) {
         
         try{
             $language = $this->repository->update($id, $request->validated());
@@ -50,17 +50,17 @@ class LanguageController extends Controller
         }catch(ModelNotFoundException $e){
             return errorResponse(
                 message: "Language not found.",
-                status: 401
+                status: 404
             );
         }catch(\Exception $e){
             return errorResponse(
                 message: $e->getMessage(),
-                status: 404
+                status: 500
             );
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try{
             $this->repository->delete($id);
@@ -76,7 +76,7 @@ class LanguageController extends Controller
         }catch(\Exception $e){
             return errorResponse(
                 message: $e->getMessage(),
-                status: 401
+                status: 500
             );
         }
     }
