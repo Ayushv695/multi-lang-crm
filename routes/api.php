@@ -39,7 +39,7 @@ Route::middleware('jwt')->group(function () {
         Route::get('/item/{id}', 'show');
     });
 
-    Route::middleware('role:admin')->controller(LanguageController::class)->group(function () {
+    Route::middleware('role:admin')->controller(ItemController::class)->group(function () {
         Route::post('/item', 'store');
         Route::put('/item/{id}', 'update');
         Route::delete('/item/{id}', 'destroy');

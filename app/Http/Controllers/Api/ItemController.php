@@ -9,12 +9,10 @@ use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemCollection;
 use App\Http\Resources\ItemResource;
 use App\Repositories\Contracts\ItemRepositoryInterface;
-use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ItemController extends Controller
 {
-    use ApiResponse;
 
     public function __construct(private ItemRepositoryInterface $repository) {}
 
@@ -27,9 +25,9 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         try{
-            $item = $this->repository->create($request->validated());
+            $item = $this->repository->create($request, $request->validated());
 
-            return $this->successResponse(
+            return successResponse(
                 data: new ItemResource($item),
                 message: 'Item added successfully.'
             );
@@ -43,9 +41,9 @@ class ItemController extends Controller
 
     public function update(UpdateItemRequest $request, $id) {
         try{
-            $language = $this->repository->update($id, $request->validated());
+            $language = $this->repository->update($id, $request, $request->validated());
 
-            return $this->successResponse(
+            return successResponse(
                 data: new ItemResource($language),
                 message: 'Item updated successfully.'
             );
@@ -67,7 +65,7 @@ class ItemController extends Controller
     {
         try{
             $this->repository->delete($id);
-            return $this->successResponse(
+            return successResponse(
                 message: 'Item deleted successfully.'
             );
 

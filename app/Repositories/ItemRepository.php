@@ -4,9 +4,12 @@ namespace App\Repositories;
 
 use App\Models\Item;
 use App\Repositories\Contracts\ItemRepositoryInterface;
+use App\Traits\ImageUpload;
+use Illuminate\Http\Request;
 
 class ItemRepository implements ItemRepositoryInterface
 {
+    use ImageUpload;
     public function list(array $data){
         $perPage = $data['per_page'] ?? 10;
         $search = $data['search'] ?? null;
@@ -19,17 +22,23 @@ class ItemRepository implements ItemRepositoryInterface
         return $query->latest()->paginate($perPage);
     }
 
-    public function create(array $data)
+    public function create(Request $request, array $data)
     {
+        $data['created_by'] = auth()->user()->id;
+        $data['photo'] = $this->uploadImage($request,'photo',Item::IMAGE_UPLOAD_PATH);
         return Item::create($data);
     }
 
-    public function update($id, array $data){
+    public function update($id , Request $request , array $data){
         $item = Item::findOrFail($id);
+        $data['photo'] = $this->updateImage($request, $item, 'photo', Item::IMAGE_UPLOAD_PATH);
+        $data['updated_by'] = auth()->user()->id;
         $item->update($data);
         return $item->fresh();
     }
     public function delete($id){
-        return (bool) Item::findOrFail($id)->delete();
+        $item = Item::findOrFail($id);
+        $this->deleteImage($item->photo , Item::IMAGE_UPLOAD_PATH);
+        return (bool) $item->delete();
     }
 }

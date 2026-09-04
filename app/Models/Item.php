@@ -20,6 +20,8 @@ class Item extends Model
     //     'status' => 'boolean',
     // ];
 
+    public const IMAGE_UPLOAD_PATH = 'uploads/items/';
+
     public function translations()
     {
         return $this->hasMany(ItemTranslation::class);
@@ -33,5 +35,9 @@ class Item extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    protected function getImageUrlAttribute(){
+        return asset(self::IMAGE_UPLOAD_PATH.$this->photo);
     }
 }

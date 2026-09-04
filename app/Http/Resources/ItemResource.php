@@ -17,10 +17,7 @@ class ItemResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'photo' => $this->photo,
-            'photo_url' => $this->photo
-                ? asset('storage/' . $this->photo)
-                : null,
+            'photo' => $this->image_url,
         ];
     }
 }
