@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         $user = $this->userRepository->create($validatedData);
 
-        return $this->successResponse(
+        return successResponse(
             data: [
                 'user' => new UserResource($user),
             ],
@@ -42,13 +42,13 @@ class AuthController extends Controller
         $token = auth()->attempt($credentials);
         
         if (!$token) {
-            return $this->errorResponse(
+            return errorResponse(
                 message: 'Invalid email or password.',
                 status: 401
             );
         }
 
-        return $this->successResponse(
+        return successResponse(
             data: [
                 'user' => new UserResource(auth()->user()),
                 'token' => $token,
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
     public function profile()
     {
-        return $this->successResponse(
+        return successResponse(
             data: [
                 'user' => new UserResource(auth()->user()),
             ]
@@ -70,7 +70,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return $this->successResponse(
+        return successResponse(
             message: 'Successfully logged out.'
         );
     }
@@ -81,7 +81,7 @@ class AuthController extends Controller
 
             $token = JWTAuth::parseToken()->refresh();
 
-            return $this->successResponse(
+            return successResponse(
                 data: [
                     'token' => $token,
                     'token_type' => 'bearer',
@@ -91,21 +91,21 @@ class AuthController extends Controller
 
         } catch (TokenInvalidException $e) {
 
-            return $this->errorResponse(
+            return errorResponse(
                 message: 'Invalid token.',
                 status: 401
             );
 
         } catch (TokenExpiredException $e) {
 
-            return $this->errorResponse(
+            return errorResponse(
                 message: 'Token can no longer be refreshed.',
                 status: 401
             );
 
         } catch (JWTException $e) {
 
-            return $this->errorResponse(
+            return errorResponse(
                 message: 'Token is missing.',
                 status: 401
             );

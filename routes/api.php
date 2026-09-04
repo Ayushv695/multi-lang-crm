@@ -29,19 +29,19 @@ Route::middleware('jwt')->group(function () {
     Route::get('/languages', [LanguageController::class,'index']);
 
     Route::middleware('role:admin')->controller(LanguageController::class)->group(function () {
-        Route::post('/languages', 'store');
-        Route::put('/languages/{id}', 'update');
-        Route::delete('/languages/{id}', 'destroy');
+        Route::post('/language', 'store');
+        Route::put('/language/{id}', 'update');
+        Route::delete('/language/{id}', 'destroy');
     });
 
     Route::controller(ItemController::class)->group(function(){
         Route::get('/items', 'index');
-        Route::get('/items/{language}', 'show');
+        Route::get('/item/{id}', 'show');
     });
 
     Route::middleware('role:admin')->controller(LanguageController::class)->group(function () {
-        Route::post('/items', 'store');
-        Route::put('/items/{language}', 'update');
-        Route::delete('/items/{language}', 'destroy');
+        Route::post('/item', 'store');
+        Route::put('/item/{id}', 'update');
+        Route::delete('/item/{id}', 'destroy');
     });
 });

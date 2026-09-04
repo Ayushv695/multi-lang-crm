@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('photo')->nullable();
-            $table->enum('status',['active','inactive'])->default('active');
+            // $table->enum('status',['active','inactive'])->default('active');
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')
