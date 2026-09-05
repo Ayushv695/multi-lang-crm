@@ -30,20 +30,19 @@ Route::middleware('jwt')->group(function () {
     Route::get('/languages', [LanguageController::class,'index']);
 
     Route::middleware('role:admin')->controller(LanguageController::class)->group(function () {
-        Route::post('/language', 'store');
-        Route::put('/language/{id}', 'update');
-        Route::delete('/language/{id}', 'destroy');
+        Route::post('/language/create', 'store');
+        Route::put('/language/update/{id}', 'update');
+        Route::delete('/language/destroy/{id}', 'destroy');
     });
 
     Route::controller(ItemController::class)->group(function(){
         Route::get('/items', 'index');
-        Route::get('/item/{id}', 'show');
     });
 
     Route::middleware('role:admin')->controller(ItemController::class)->group(function () {
-        Route::post('/item', 'store');
-        Route::put('/item/{id}', 'update');
-        Route::delete('/item/{id}', 'destroy');
+        Route::post('/item/create', 'store');
+        Route::put('/item/update/{id}', 'update');
+        Route::delete('/item/destroy/{id}', 'destroy');
     });
 
     Route::middleware('role:admin,manager')->controller(ItemTranslationController::class)->group(function () {
