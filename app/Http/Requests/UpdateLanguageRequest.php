@@ -23,7 +23,7 @@ class UpdateLanguageRequest extends FormRequest
      */
     public function rules(): array
     {
-        $languageId = $this->route('language');
+        $languageId = $this->route('id');
         return [
             'name' => ['required','string','max:100'],
             'code' => ['required','string','max:10','alpha_dash',Rule::unique('languages', 'code')->ignore($languageId)],
