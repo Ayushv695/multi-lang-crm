@@ -24,7 +24,7 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name' => ['required','string','max:255'],
-            'photo' => ['required','image','mimes:jpg,jpeg,png,webp','max:5120'],
+            'photo' => ['sometimes','nullable','image','mimes:jpg,jpeg,png,webp','max:5120'],
             // 'status' => ['sometimes','in:active,inactive'],
         ];
     }

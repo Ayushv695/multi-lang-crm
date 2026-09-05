@@ -38,6 +38,9 @@ class Item extends Model
     }
 
     protected function getImageUrlAttribute(){
-        return asset(self::IMAGE_UPLOAD_PATH.$this->photo);
+        if($this->photo){
+            return asset(self::IMAGE_UPLOAD_PATH.$this->photo);
+        }
+        return "";
     }
 }
