@@ -19,7 +19,7 @@ class LanguageRepository implements LanguageRepositoryInterface
             });
         }
 
-        return $query->latest()->paginate($perPage);
+        return $query->latest()->paginate($perPage)->withQueryString();
     }
 
     public function create(array $data)

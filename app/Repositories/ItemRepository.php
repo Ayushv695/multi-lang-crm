@@ -19,7 +19,7 @@ class ItemRepository implements ItemRepositoryInterface
             $query->where('name', 'like', '%' . $search . '%');
         }
 
-        return $query->latest()->paginate($perPage);
+        return $query->latest()->paginate($perPage)->withQueryString();
     }
 
     public function create(Request $request, array $data)
