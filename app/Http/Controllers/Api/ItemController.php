@@ -81,4 +81,10 @@ class ItemController extends Controller
             );
         }
     }
+
+    public function itemsList()
+    {
+        $items = $this->repository->allItemslist();
+        return new ItemCollection($items);
+    }
 }

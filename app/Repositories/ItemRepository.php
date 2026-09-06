@@ -41,4 +41,8 @@ class ItemRepository implements ItemRepositoryInterface
         // $this->deleteImage($item->photo , Item::IMAGE_UPLOAD_PATH);
         return (bool) $item->delete();
     }
+
+    public function allItemslist(){
+        return Item::select('id','name')->get();
+    }
 }

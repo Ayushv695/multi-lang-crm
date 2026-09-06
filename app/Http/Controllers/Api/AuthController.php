@@ -78,33 +78,34 @@ class AuthController extends Controller
 
             $token = JWTAuth::parseToken()->refresh();
 
-            return successResponse(
+            return successJWTTokenResponse(
+                message: 'Token refreshed successfully.',
+                code:'TOKEN_REFRESHED',
                 data: [
                     'token' => $token,
                     'token_type' => 'bearer',
                 ],
-                message: 'Token refreshed successfully.'
             );
 
         } catch (TokenInvalidException $e) {
 
-            return errorResponse(
+            return errorJWTTokenResponse(
                 message: 'Invalid token.',
-                status: 401
+                code:'TOKEN_INVALID',
             );
 
         } catch (TokenExpiredException $e) {
 
-            return errorResponse(
+            return errorJWTTokenResponse(
                 message: 'Token can no longer be refreshed.',
-                status: 401
+                code:'TOKEN_EXPIRED',
             );
 
         } catch (JWTException $e) {
 
-            return errorResponse(
+            return errorJWTTokenResponse(
                 message: 'Token is missing.',
-                status: 401
+                code:'TOKEN_MISSING',
             );
         }
     }

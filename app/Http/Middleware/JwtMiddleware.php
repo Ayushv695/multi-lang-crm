@@ -23,27 +23,28 @@ class JwtMiddleware
             $user = JWTAuth::parseToken()->authenticate();
 
             if (!$user) {
-                return $this->errorResponse('User not found.');
+                return errorJWTTokenResponse('User not found.','USER_NOT_FOUND');
             }
 
         } catch (TokenExpiredException $e) {
-            return $this->errorResponse('Token has expired.');
+            return errorJWTTokenResponse('Token has expired.','TOKEN_EXPIRED');
 
         } catch (TokenInvalidException $e) {
-            return $this->errorResponse('Invalid token.');
+            return errorJWTTokenResponse('Invalid token.','TOKEN_INVALID');
 
         } catch (JWTException $e) {
-            return $this->errorResponse('Token is missing.');
+            return errorJWTTokenResponse('Token is missing.','TOKEN_MISSING');
         }
 
         return $next($request);
     }
 
-    private function errorResponse(string $message)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $message,
-        ], 401);
-    }
+    // private function errorResponse(string $message, string $code)
+    // {
+    //     return response()->json([
+    //         'success' => false,
+    //         'code' => $code,
+    //         'message' => $message,
+    //     ], 401);
+    // }
 }

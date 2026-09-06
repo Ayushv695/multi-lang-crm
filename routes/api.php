@@ -37,6 +37,7 @@ Route::middleware('jwt')->group(function () {
 
     Route::controller(ItemController::class)->group(function(){
         Route::get('/items', 'index');
+        Route::get('/all-items-list', 'itemsList');
     });
 
     Route::middleware('role:admin')->controller(ItemController::class)->group(function () {
