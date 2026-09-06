@@ -16,32 +16,13 @@ class ItemTranslationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-
             'item_id' => $this->item_id,
-
+            'item_name' => $this->item?->name,
             'language_id' => $this->language_id,
-
-            'language' => $this->whenLoaded(
-                'language',
-                fn () => [
-                    'id' => $this->language->id,
-                    'name' => $this->language->name,
-                    'code' => $this->language->code,
-                ]
-            ),
-
-            'name' => $this->name,
-
-            'audio' => $this->audio,
-
-            'audio_url' => $this->audio
-                ? asset('storage/' . $this->audio)
-                : null,
-
-            'status' => $this->status,
-
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'language_name' => $this->language?->name,
+            'language_code' => $this->language?->code,
+            'translated_name' => $this->name,
+            'translated_audio' => $this->audio,
         ];
     }
 }

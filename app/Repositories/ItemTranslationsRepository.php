@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Item;
+use App\Models\ItemTranslation;
+use App\Models\Language;
 use App\Repositories\Contracts\ItemTranslationsRepositoryInterface;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
@@ -10,16 +12,16 @@ use Illuminate\Http\Request;
 class ItemTranslationsRepository implements ItemTranslationsRepositoryInterface
 {
     use FileUpload;
-    public function list(array $data){
-        $perPage = $data['per_page'] ?? 10;
-        $search = $data['search'] ?? null;
-        $query = Item::query();
+    public function list(int $id){
+        $translations = ItemTranslation::with(['item:id,name','language:id,name,code'])->where('item_id', $id)->get();
+        $mappedLanguageIds = $translations->pluck('language_id')->toArray();
 
-        if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
-        }
+        $availableLanguages = Language::query()->select('id', 'name', 'code')->whereNotIn('id', $mappedLanguageIds)->get();
 
-        return $query->latest()->paginate($perPage)->withQueryString();
+        return [
+            'translations' => $translations,
+            'languages_available_for_mapping' => $availableLanguages,
+        ];
     }
 
     public function create(Request $request, array $data)

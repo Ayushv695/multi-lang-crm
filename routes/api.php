@@ -47,7 +47,7 @@ Route::middleware('jwt')->group(function () {
     });
 
     Route::middleware('role:admin,manager')->controller(ItemTranslationController::class)->group(function () {
-        Route::get('/items/{itemId}/translations','index');
+        Route::get('/item-translations/{itemId}','index');
         Route::post('/items/{itemId}/language','store');
         Route::get('/items/{itemId}/language/{languageId}','show');
         Route::put('/item-translation/{id}','update');

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\IndexItemTranslationRequest;
 use App\Http\Requests\StoreItemTranslationRequest;
 use App\Http\Requests\UpdateItemTranslationRequest;
+use App\Http\Resources\ItemTranslationCollection;
 use App\Repositories\Contracts\ItemTranslationsRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -14,10 +14,31 @@ class ItemTranslationController extends Controller
 {
     public function __construct(private ItemTranslationsRepositoryInterface $repository) {}
 
-    public function index(IndexItemTranslationRequest $request)
+    public function index(int $id)
     {
-        $items = $this->repository->list($request->validated());
-        return new ItemCollection($items);
+        try{
+            $result = $this->repository->list($id);
+
+            return successResponse(
+                // data: new ItemTranslationCollection($translations),
+                data:[
+                    'translations' => new ItemTranslationCollection($result['translations']),
+                    'languages_available_for_mapping' => $result['languages_available_for_mapping'],
+                ],
+                message: 'Item translations retrieved successfully.'
+            );
+
+        }catch(ModelNotFoundException $e){
+            return errorResponse(
+                message: "Item not found.",
+                status: 404
+            );
+        }catch(\Exception $e){
+            return errorResponse(
+                message: $e->getMessage(),
+                status: 500
+            );
+        }
     }
 
     public function store(StoreItemTranslationRequest $request)
