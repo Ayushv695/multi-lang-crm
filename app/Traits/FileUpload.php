@@ -5,40 +5,40 @@ namespace App\Traits;
 use Illuminate\Support\Facades\File;
 trait FileUpload
 {
-    public function uploadImage($request, $input_name ,$path){
-        $image_name = '';
+    public function uploadFile($request, $input_name ,$path){
+        $file_name = '';
 
         if($request->hasFile($input_name)){
             $image = $request->file($input_name);
-            $image_name = uniqid().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path($path),$image_name);
+            $file_name = uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path($path),$file_name);
         }
 
-        return $image_name;
+        return $file_name;
     }
 
-    public function updateImage($request, $data, $input_name ,$path){  
-        $image_name = $data->{$input_name};
+    public function updateFile($request, $data, $input_name ,$path){  
+        $file_name = $data->{$input_name};
 
         if($request->hasFile($input_name)){
                 
-            if($image_name && File::exists(public_path($path.$image_name))){
-                File::delete(public_path($path.$image_name));
+            if($file_name && File::exists(public_path($path.$file_name))){
+                File::delete(public_path($path.$file_name));
             }
 
             $image = $request->file($input_name);
-            $image_name = uniqid().".".$image->getClientOriginalExtension();
+            $file_name = uniqid().".".$image->getClientOriginalExtension();
 
-            $image->move(public_path($path),$image_name);
+            $image->move(public_path($path),$file_name);
         }
 
-        return $image_name;
+        return $file_name;
     }
 
-    public function deleteImage($image_name , $path){  
+    public function deleteFile($file_name , $path){  
 
-        if($image_name && File::exists(public_path($path.$image_name))){
-            File::delete(public_path($path.$image_name));
+        if($file_name && File::exists(public_path($path.$file_name))){
+            File::delete(public_path($path.$file_name));
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreItemTranslationRequest;
 use App\Http\Requests\UpdateItemTranslationRequest;
 use App\Http\Resources\ItemTranslationCollection;
+use App\Http\Resources\ItemTranslationResource;
 use App\Repositories\Contracts\ItemTranslationsRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -28,11 +29,6 @@ class ItemTranslationController extends Controller
                 message: 'Item translations retrieved successfully.'
             );
 
-        }catch(ModelNotFoundException $e){
-            return errorResponse(
-                message: "Item not found.",
-                status: 404
-            );
         }catch(\Exception $e){
             return errorResponse(
                 message: $e->getMessage(),
@@ -47,8 +43,8 @@ class ItemTranslationController extends Controller
             $item = $this->repository->create($request, $request->validated());
 
             return successResponse(
-                data: new ItemResource($item),
-                message: 'Item added successfully.'
+                data: new ItemTranslationResource($item),
+                message: 'Item translation added successfully.'
             );
         }catch(\Exception $e){
             return errorResponse(
@@ -63,13 +59,13 @@ class ItemTranslationController extends Controller
             $language = $this->repository->update($id, $request, $request->validated());
 
             return successResponse(
-                data: new ItemResource($language),
-                message: 'Item updated successfully.'
+                data: new ItemTranslationResource($language),
+                message: 'Item translation updated successfully.'
             );
 
         }catch(ModelNotFoundException $e){
             return errorResponse(
-                message: "Item not found.",
+                message: "Item translation not found.",
                 status: 404
             );
         }catch(\Exception $e){
@@ -80,17 +76,17 @@ class ItemTranslationController extends Controller
         }
     }
 
-    public function destroy(int $itemId, int $languageId)
+    public function destroy(int $id)
     {
         try{
-            $this->repository->delete($itemId,$languageId);
+            $this->repository->delete($id);
             return successResponse(
-                message: 'Item deleted successfully.'
+                message: 'Item Translation deleted successfully.'
             );
 
         }catch(ModelNotFoundException $e){
             return errorResponse(
-                message: "Item not found.",
+                message: "Item Translation not found.",
                 status: 404
             );
         }catch(\Exception $e){

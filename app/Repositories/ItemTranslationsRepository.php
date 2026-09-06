@@ -27,20 +27,21 @@ class ItemTranslationsRepository implements ItemTranslationsRepositoryInterface
     public function create(Request $request, array $data)
     {
         $data['created_by'] = auth()->user()->id;
-        $data['photo'] = $this->uploadImage($request,'photo',Item::IMAGE_UPLOAD_PATH);
-        return Item::create($data);
+        $data['audio'] = $this->uploadFile($request,'audio',ItemTranslation::AUDIO_UPLOAD_PATH);
+        return ItemTranslation::create($data);
     }
 
     public function update(int $id , Request $request , array $data){
-        $item = Item::findOrFail($id);
-        $data['photo'] = $this->updateImage($request, $item, 'photo', Item::IMAGE_UPLOAD_PATH);
+        $translation = ItemTranslation::findOrFail($id);
+        $data['audio'] = $this->updateFile($request, $translation, 'audio', ItemTranslation::AUDIO_UPLOAD_PATH);
         $data['updated_by'] = auth()->user()->id;
-        $item->update($data);
-        return $item->fresh();
+        $translation->update($data);
+        return $translation->fresh();
     }
-    public function delete(int $itemId, int $languageId){
-        $item = Item::findOrFail($id);
-        // $this->deleteImage($item->photo , Item::IMAGE_UPLOAD_PATH);
-        return (bool) $item->delete();
+
+    public function delete(int $id){
+        $translation = ItemTranslation::findOrFail($id);
+        $this->deleteFile($translation->audio , ItemTranslation::AUDIO_UPLOAD_PATH);
+        return (bool) $translation->delete();
     }
 }

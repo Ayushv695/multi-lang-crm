@@ -22,7 +22,7 @@ class ItemTranslationResource extends JsonResource
             'language_name' => $this->language?->name,
             'language_code' => $this->language?->code,
             'translated_name' => $this->name,
-            'translated_audio' => $this->audio,
+            'translated_audio' => $this->audio_url,
         ];
     }
 }

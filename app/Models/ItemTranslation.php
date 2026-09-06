@@ -16,6 +16,7 @@ class ItemTranslation extends Model
         'updated_by',
     ];
 
+    public const AUDIO_UPLOAD_PATH = 'uploads/audio/';
     public function item()
     {
         return $this->belongsTo(Item::class);
@@ -34,5 +35,12 @@ class ItemTranslation extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    protected function getAudioUrlAttribute(){
+        if($this->audio){
+            return asset(self::AUDIO_UPLOAD_PATH.$this->audio);
+        }
+        return "";
     }
 }

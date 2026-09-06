@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexItemTranslationRequest extends FormRequest
+class ItemTranslationListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,9 @@ class IndexItemTranslationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => ['nullable', 'string', 'max:100'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            // 'search' => ['nullable', 'string', 'max:100'],
+            // 'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'language_id' => ['required','integer','exists:languages,id'],
         ];
     }
 }

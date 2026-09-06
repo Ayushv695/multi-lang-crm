@@ -25,20 +25,20 @@ class ItemRepository implements ItemRepositoryInterface
     public function create(Request $request, array $data)
     {
         $data['created_by'] = auth()->user()->id;
-        $data['photo'] = $this->uploadImage($request,'photo',Item::IMAGE_UPLOAD_PATH);
+        $data['photo'] = $this->uploadFile($request,'photo',Item::IMAGE_UPLOAD_PATH);
         return Item::create($data);
     }
 
     public function update(int $id , Request $request , array $data){
         $item = Item::findOrFail($id);
-        $data['photo'] = $this->updateImage($request, $item, 'photo', Item::IMAGE_UPLOAD_PATH);
+        $data['photo'] = $this->updateFile($request, $item, 'photo', Item::IMAGE_UPLOAD_PATH);
         $data['updated_by'] = auth()->user()->id;
         $item->update($data);
         return $item->fresh();
     }
     public function delete(int $id){
         $item = Item::findOrFail($id);
-        // $this->deleteImage($item->photo , Item::IMAGE_UPLOAD_PATH);
+        // $this->deleteFile($item->photo , Item::IMAGE_UPLOAD_PATH);
         return (bool) $item->delete();
     }
 

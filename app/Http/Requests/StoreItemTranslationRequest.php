@@ -24,6 +24,7 @@ class StoreItemTranslationRequest extends FormRequest
     {
         return [
             'language_id' => ['required','integer','exists:languages,id'],
+            'item_id' => ['required','integer','exists:items,id'],
             'name' => ['required','string','max:255'],
             'audio' => ['nullable','file','mimes:mp3,wav,ogg,m4a','max:20480'],
             // 'status' => ['sometimes','boolean'],

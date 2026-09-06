@@ -47,10 +47,9 @@ Route::middleware('jwt')->group(function () {
     });
 
     Route::middleware('role:admin,manager')->controller(ItemTranslationController::class)->group(function () {
-        Route::get('/item-translations/{itemId}','index');
-        Route::post('/items/{itemId}/language','store');
-        Route::get('/items/{itemId}/language/{languageId}','show');
-        Route::put('/item-translation/{id}','update');
-        Route::delete('/item-translation/{id}','destroy');
+        Route::get('/item-translations/{id}','index');
+        Route::post('/item-translation/create','store');
+        Route::put('/item-translation/update/{id}','update');
+        Route::delete('/item-translation/destroy/{id}','destroy');
     });
 });
