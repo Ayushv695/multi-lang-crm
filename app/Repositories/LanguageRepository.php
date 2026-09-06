@@ -2,11 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Models\ItemTranslation;
 use App\Models\Language;
 use App\Repositories\Contracts\LanguageRepositoryInterface;
+use App\Traits\FileUpload;
 
 class LanguageRepository implements LanguageRepositoryInterface
 {
+    use FileUpload;
     public function list(array $data){
         $perPage = $data['per_page'] ?? 10;
         $search = $data['search'] ?? null;
@@ -33,6 +36,18 @@ class LanguageRepository implements LanguageRepositoryInterface
         return $language->fresh();
     }
     public function delete(int $id){
-        return (bool) Language::findOrFail($id)->delete();
+        $language = Language::findOrFail($id);
+
+        foreach ($language->translations as $translation) {
+            if ($translation->audio) {
+                $this->deleteFile(
+                    $translation->audio,
+                    ItemTranslation::AUDIO_UPLOAD_PATH
+                );
+            }
+        }
+
+        $language->translations()->delete();
+        return (bool) $language->delete();
     }
 }

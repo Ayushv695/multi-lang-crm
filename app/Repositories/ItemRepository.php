@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Item;
+use App\Models\ItemTranslation;
 use App\Repositories\Contracts\ItemRepositoryInterface;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
@@ -38,7 +39,19 @@ class ItemRepository implements ItemRepositoryInterface
     }
     public function delete(int $id){
         $item = Item::findOrFail($id);
-        // $this->deleteFile($item->photo , Item::IMAGE_UPLOAD_PATH);
+
+        foreach ($item->translations as $translation) {
+            if ($translation->audio) {
+                $this->deleteFile(
+                    $translation->audio,
+                    ItemTranslation::AUDIO_UPLOAD_PATH
+                );
+            }
+        }
+
+        $item->translations()->delete();
+
+        $this->deleteFile($item->photo , Item::IMAGE_UPLOAD_PATH);
         return (bool) $item->delete();
     }
 

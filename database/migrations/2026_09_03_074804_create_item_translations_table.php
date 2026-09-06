@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('item_translations', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
+            $table->foreignId('item_id')->constrained('items');
 
-            $table->foreignId('language_id')->constrained('languages')->cascadeOnDelete();
+            $table->foreignId('language_id')->constrained('languages');
 
             $table->string('name');
 
