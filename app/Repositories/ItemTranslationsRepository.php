@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Item;
 use App\Models\ItemTranslation;
 use App\Models\Language;
 use App\Repositories\Contracts\ItemTranslationsRepositoryInterface;
