@@ -35,7 +35,7 @@ class ItemTranslationsRepository implements ItemTranslationsRepositoryInterface
         $data['audio'] = $this->updateFile($request, $translation, 'audio', ItemTranslation::AUDIO_UPLOAD_PATH);
         $data['updated_by'] = auth()->user()->id;
         $translation->update($data);
-        return $translation->fresh();
+        return $translation;
     }
 
     public function delete(int $id){

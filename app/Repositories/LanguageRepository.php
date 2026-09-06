@@ -22,7 +22,7 @@ class LanguageRepository implements LanguageRepositoryInterface
             });
         }
 
-        return $query->latest()->paginate($perPage)->withQueryString();
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function create(array $data)
@@ -33,7 +33,7 @@ class LanguageRepository implements LanguageRepositoryInterface
     public function update(int $id, array $data){
         $language = Language::findOrFail($id);
         $language->update($data);
-        return $language->fresh();
+        return $language;
     }
     public function delete(int $id){
         $language = Language::findOrFail($id);

@@ -35,7 +35,7 @@ class ItemRepository implements ItemRepositoryInterface
         $data['photo'] = $this->updateFile($request, $item, 'photo', Item::IMAGE_UPLOAD_PATH);
         $data['updated_by'] = auth()->user()->id;
         $item->update($data);
-        return $item->fresh();
+        return $item;
     }
     public function delete(int $id){
         $item = Item::findOrFail($id);
